@@ -1,5 +1,7 @@
+using HIGHSOFT.Models;
 using HIGHSOFTBASE.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,23 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    // db.Database.Migrate(); // si quieres forzar migraciones en runtime
+    if (!db.CategoriaServicios.Any())
+    {
+        db.CategoriaServicios.AddRange(
+            new CategoriaServicio { Nombre = "Masajes", Descripcion = "Masajes relajantes y terapéuticos" },
+            new CategoriaServicio { Nombre = "Estética", Descripcion = "Tratamientos faciales y corporales" },
+            new CategoriaServicio { Nombre = "Peluquería", Descripcion = "Corte y peinado" }
+        );
+        db.SaveChanges();
+    }
+}
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

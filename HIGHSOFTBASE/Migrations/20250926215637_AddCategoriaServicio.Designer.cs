@@ -4,6 +4,7 @@ using HIGHSOFTBASE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HIGHSOFTBASE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250926215637_AddCategoriaServicio")]
+    partial class AddCategoriaServicio
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,49 +48,7 @@ namespace HIGHSOFTBASE.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Nombre")
-                        .IsUnique();
-
                     b.ToTable("CategoriaServicios");
-                });
-
-            modelBuilder.Entity("HIGHSOFT.Models.Servicio", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CategoriaServicioId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("CreadoEn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("DuracionMinutos")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoriaServicioId");
-
-                    b.ToTable("Servicios");
                 });
 
             modelBuilder.Entity("HIGHSOFTBASE.Models.Usuario", b =>
@@ -158,22 +119,6 @@ namespace HIGHSOFTBASE.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Clientes");
-                });
-
-            modelBuilder.Entity("HIGHSOFT.Models.Servicio", b =>
-                {
-                    b.HasOne("HIGHSOFT.Models.CategoriaServicio", "CategoriaServicio")
-                        .WithMany("Servicios")
-                        .HasForeignKey("CategoriaServicioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CategoriaServicio");
-                });
-
-            modelBuilder.Entity("HIGHSOFT.Models.CategoriaServicio", b =>
-                {
-                    b.Navigation("Servicios");
                 });
 #pragma warning restore 612, 618
         }
