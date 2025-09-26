@@ -1,0 +1,35 @@
+﻿@using Microsoft.AspNetCore.Mvc.Routing
+@{
+    string currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+}
+
+<nav class="app-sidebar">
+    <div class="sidebar-top text-center p-3">
+        <div class="avatar">HL</div>
+        <div class="brand">HIGHLIFE SPA BAR</div>
+        <div class="subtitle">Panel Administrativo</div>
+    </div>
+
+    <ul class="nav flex-column sidebar-menu">
+        <li class="nav-item">
+            <a class="nav-link @(currentController == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">
+                <i class="fa-solid fa-grid"></i> <span>Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(currentController == "Usuarios" ? "active" : "")" asp-controller="Usuarios" asp-action="Index">
+                <i class="fa-solid fa-user"></i> Usuarios
+            </a>
+        </li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Clientes" asp-action="Index"><i class="fa-solid fa-user-group"></i> Clientes</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Empleados" asp-action="Index"><i class="fa-solid fa-user-tie"></i> Empleados</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Servicios" asp-action="Index"><i class="fa-solid fa-mortar-pestle"></i> Servicios</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Categorias" asp-action="Index"><i class="fa-solid fa-tag"></i> Categorías</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Agenda" asp-action="Index"><i class="fa-regular fa-calendar-days"></i> Agenda</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Disponibilidad" asp-action="Index"><i class="fa-regular fa-clock"></i> Disponibilidad</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Roles" asp-action="Index"><i class="fa-solid fa-shield"></i> Roles</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Cotizaciones" asp-action="Index"><i class="fa-solid fa-file-invoice-dollar"></i> Cotizaciones</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Novedades" asp-action="Index"><i class="fa-solid fa-newspaper"></i> Novedades</a></li>
+        <li class="nav-item"><a class="nav-link" asp-controller="Ventas" asp-action="Index"><i class="fa-solid fa-chart-line"></i> Ventas</a></li>
+    </ul>
+</nav>
