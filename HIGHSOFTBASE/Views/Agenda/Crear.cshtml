@@ -1,0 +1,34 @@
+﻿@model HIGHSOFTBASE.Models.Cita
+
+<h2>Agendar Cita</h2>
+
+<form asp-action="Crear" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label>Cliente</label>
+        <select asp-for="ClienteId" asp-items="ViewBag.Clientes" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Servicio</label>
+        <select asp-for="ServicioId" asp-items="ViewBag.Servicios" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Empleado</label>
+        <select asp-for="EmpleadoId" asp-items="ViewBag.Empleados" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label>Fecha Inicio</label>
+        <input asp-for="FechaInicio" type="datetime-local" class="form-control" value="@ViewBag.FechaSeleccionada" />
+    </div>
+
+    <div class="form-group">
+        <label>Fecha Fin</label>
+        <input asp-for="FechaFin" type="datetime-local" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>

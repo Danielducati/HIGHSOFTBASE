@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Agenda - Calendario";
+}
+
+<h2>📅 Agenda</h2>
+
+<div id="calendar"></div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var calendarEl = document.getElementById("calendar");
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                locale: "es", // español
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
+                },
+                events: "/Agenda/GetCitas", // 👉 aquí llama al controlador
+                eventColor: "#378006", // color por defecto
+
+                // 🔹 Permitir seleccionar
+                selectable: true,
+                selectHelper: true,
+
+                // 🔹 Qué pasa al seleccionar un rango de fechas
+                select: function (info) {
+                    alert("📅 Nueva cita del " + info.startStr + " al " + info.endStr);
+                    // Aquí puedes abrir un modal para crear la cita
+                    // o redirigir: window.location.href = '/Citas/Create?fecha=' + info.startStr;
+                },
+
+                // 🔹 Qué pasa al hacer clic en una cita existente
+                eventClick: function (info) {
+                    alert("📌 Cita: " + info.event.title +
+                          "\nInicio: " + info.event.start +
+                          "\nFin: " + info.event.end +
+                          "\nEstado: " + info.event.extendedProps.estado +
+                          "\nEmpleado: " + info.event.extendedProps.empleado);
+                }
+            });
+
+            calendar.render();
+        });
+    </script>
+}

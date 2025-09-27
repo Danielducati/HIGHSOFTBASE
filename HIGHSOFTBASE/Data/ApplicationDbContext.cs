@@ -10,6 +10,11 @@ namespace HIGHSOFTBASE.Data
         {
         }
 
+        // Tablas
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Servicio> Servicios { get; set; }
+        public DbSet<EmpleadoAgenda> Empleados { get; set; }
+        public DbSet<Cita> Citas { get; set; }
     }
 }
