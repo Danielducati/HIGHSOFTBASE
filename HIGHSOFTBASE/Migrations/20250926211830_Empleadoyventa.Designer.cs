@@ -4,6 +4,7 @@ using HIGHSOFTBASE.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HIGHSOFTBASE.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250926211830_Empleadoyventa")]
+    partial class Empleadoyventa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,19 +33,15 @@ namespace HIGHSOFTBASE.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Correo")
+                    b.Property<string>("Cargo")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
@@ -84,27 +83,30 @@ namespace HIGHSOFTBASE.Migrations
 
             modelBuilder.Entity("HIGHSOFTBASE.Models.Venta", b =>
                 {
-                    b.Property<int>("VentaId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VentaId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("EmpleadoId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaVenta")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("Precio")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Servicio")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("UsuarioId")
                         .HasColumnType("int");
 
-                    b.HasKey("VentaId");
+                    b.HasKey("Id");
 
                     b.HasIndex("EmpleadoId");
 
@@ -116,7 +118,7 @@ namespace HIGHSOFTBASE.Migrations
             modelBuilder.Entity("HIGHSOFTBASE.Models.Venta", b =>
                 {
                     b.HasOne("HIGHSOFTBASE.Models.Empleado", "Empleado")
-                        .WithMany()
+                        .WithMany("Ventas")
                         .HasForeignKey("EmpleadoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -130,6 +132,11 @@ namespace HIGHSOFTBASE.Migrations
                     b.Navigation("Empleado");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("HIGHSOFTBASE.Models.Empleado", b =>
+                {
+                    b.Navigation("Ventas");
                 });
 #pragma warning restore 612, 618
         }

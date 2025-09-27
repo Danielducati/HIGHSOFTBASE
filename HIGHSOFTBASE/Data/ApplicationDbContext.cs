@@ -10,6 +10,10 @@ namespace HIGHSOFTBASE.Data
         {
         }
 
+        public DbSet<Venta> Ventas { get; set; }
+        public DbSet<Empleado> Empleados { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        
+        
     }
 }

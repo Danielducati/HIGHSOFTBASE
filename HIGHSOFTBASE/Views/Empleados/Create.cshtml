@@ -1,0 +1,77 @@
+﻿@model HIGHSOFTBASE.Models.Empleado
+
+@{
+    ViewData["Title"] = "Crear Empleado";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <!-- Tarjeta -->
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+                    <h4 class="mb-0">
+                        <i class="fa-solid fa-user-plus me-2"></i> Nuevo Empleado
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <!-- Nombre -->
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label fw-bold">
+                                <i class="fa-solid fa-id-card me-1 text-primary"></i> Nombre
+                            </label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Ej: Juan Pérez" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+
+                        <!-- Correo -->
+                        <div class="mb-3">
+                            <label asp-for="Correo" class="form-label fw-bold">
+                                <i class="fa-solid fa-envelope me-1 text-success"></i> Correo
+                            </label>
+                            <input asp-for="Correo" class="form-control" placeholder="Ej: juan@email.com" />
+                            <span asp-validation-for="Correo" class="text-danger"></span>
+                        </div>
+
+                        <!-- Tipo -->
+                        <div class="mb-3">
+                            <label asp-for="Tipo" class="form-label fw-bold">
+                                <i class="fa-solid fa-briefcase me-1 text-warning"></i> Tipo de Empleado
+                            </label>
+                            <select asp-for="Tipo" class="form-select">
+                                <option value="">-- Seleccione un tipo --</option>
+                                <option value="Cosmetóloga">Cosmetóloga</option>
+                                <option value="Estilista">Estilista</option>
+                                <option value="Manicurista">Manicurista</option>
+                                <option value="Barbero">Barbero</option>
+                            </select>
+                            <span asp-validation-for="Tipo" class="text-danger"></span>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fa-solid fa-arrow-left me-1"></i> Volver
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa-solid fa-check me-1"></i> Crear
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
