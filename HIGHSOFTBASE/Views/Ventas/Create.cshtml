@@ -1,0 +1,73 @@
+﻿@model HIGHSOFTBASE.Models.Venta
+
+@{
+    ViewData["Title"] = "Nueva Venta";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4><i class="fa-solid fa-cart-plus me-2"></i> Registrar Nueva Venta</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <!-- Servicio -->
+                        <div class="mb-3">
+                            <label asp-for="Servicio" class="form-label fw-bold"></label>
+                            <input asp-for="Servicio" class="form-control" placeholder="Ejemplo: Corte de cabello" />
+                            <span asp-validation-for="Servicio" class="text-danger"></span>
+                        </div>
+
+                        <!-- Precio -->
+                        <div class="mb-3">
+                            <label asp-for="Precio" class="form-label fw-bold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Precio" class="form-control" placeholder="0.00" />
+                            </div>
+                            <span asp-validation-for="Precio" class="text-danger"></span>
+                        </div>
+
+                        <!-- Empleado -->
+                        <div class="mb-3">
+                            <label asp-for="EmpleadoId" class="form-label fw-bold">Empleado</label>
+                            <select asp-for="EmpleadoId" class="form-select" asp-items="ViewBag.EmpleadoId">
+                                <option value="">-- Selecciona un empleado --</option>
+                            </select>
+                            <span asp-validation-for="EmpleadoId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Usuario -->
+                        <div class="mb-3">
+                            <label asp-for="UsuarioId" class="form-label fw-bold">Cliente</label>
+                            <select asp-for="UsuarioId" class="form-select" asp-items="ViewBag.UsuarioId">
+                                <option value="">-- Selecciona un cliente --</option>
+                            </select>
+                            <span asp-validation-for="UsuarioId" class="text-danger"></span>
+                        </div>
+
+                        <!-- Botones -->
+                        <div class="d-flex justify-content-between">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="fa-solid fa-arrow-left me-2"></i> Volver
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa-solid fa-save me-2"></i> Guardar Venta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

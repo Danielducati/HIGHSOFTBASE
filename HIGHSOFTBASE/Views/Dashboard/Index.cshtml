@@ -1,0 +1,70 @@
+﻿@model HIGHSOFTBASE.Models.Dashboard
+
+@{
+    ViewData["Title"] = "Dashboard Analítico";
+}
+
+<div class="container mt-4">
+    <h2>Dashboard Analítico</h2>
+    <hr />
+
+    <div class="row text-center mb-4">
+        <div class="col">
+            <h4>Total Ventas</h4>
+            <p>@Model.TotalVentas</p>
+        </div>
+        <div class="col">
+            <h4>Total Empleados</h4>
+            <p>@Model.TotalEmpleados</p>
+        </div>
+        <div class="col">
+            <h4>Total Usuarios</h4>
+            <p>@Model.TotalUsuarios</p>
+        </div>
+        <div class="col">
+            <h4>Ventas Totales</h4>
+            <p>$@Model.VentasTotales</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <canvas id="totalesChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <canvas id="distribucionChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // 📊 Gráfica de barras - Totales
+    const totalesCtx = document.getElementById('totalesChart').getContext('2d');
+    new Chart(totalesCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Ventas', 'Empleados', 'Usuarios'],
+            datasets: [{
+                label: 'Totales',
+                data: [@Model.TotalVentas, @Model.TotalEmpleados, @Model.TotalUsuarios],
+                backgroundColor: ['#4ade80', '#60a5fa', '#fbbf24']
+            }]
+        }
+    });
+
+    // 🍩 Gráfica de dona - Distribución
+    const distribucionCtx = document.getElementById('distribucionChart').getContext('2d');
+    new Chart(distribucionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Ventas', 'Empleados', 'Usuarios'],
+            datasets: [{
+                label: 'Distribución',
+                data: [@Model.TotalVentas, @Model.TotalEmpleados, @Model.TotalUsuarios],
+                backgroundColor: ['#34d399', '#3b82f6', '#facc15']
+            }]
+        }
+    });
+</script>

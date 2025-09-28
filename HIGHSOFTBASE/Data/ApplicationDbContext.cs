@@ -11,6 +11,7 @@ namespace HIGHSOFTBASE.Data
             : base(options)
         {
         }
+
         public DbSet<Usuario> Usuarios { get; set; }
 
         public DbSet<Cliente> Clientes { get; set; }
@@ -34,6 +35,14 @@ namespace HIGHSOFTBASE.Data
                 .HasForeignKey(s => s.CategoriaServicioId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
+
+
+
+        public DbSet<Venta> Ventas { get; set; }
+        public DbSet<Empleado> Empleados { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        
+        
 
     }
 }

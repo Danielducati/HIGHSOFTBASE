@@ -1,0 +1,57 @@
+﻿@model HIGHSOFTBASE.Models.Empleado
+
+@{
+    ViewData["Title"] = "Detalles del Empleado";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <!-- Tarjeta -->
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+                    <h4 class="mb-0">
+                        <i class="fa-solid fa-circle-info me-2"></i> Detalles del Empleado
+                    </h4>
+                </div>
+
+                <div class="card-body p-4">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4 fw-bold text-secondary">
+                            <i class="fa-solid fa-id-card me-1 text-primary"></i> Nombre
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Nombre)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-secondary">
+                            <i class="fa-solid fa-envelope me-1 text-success"></i> Correo
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Correo)
+                        </dd>
+
+                        <dt class="col-sm-4 fw-bold text-secondary">
+                            <i class="fa-solid fa-briefcase me-1 text-warning"></i> Tipo
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Tipo)
+                        </dd>
+                    </dl>
+                </div>
+
+                <!-- Botones -->
+                <div class="card-footer d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fa-solid fa-arrow-left me-1"></i> Volver
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
+                        <i class="fa-solid fa-pen-to-square me-1"></i> Editar
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
