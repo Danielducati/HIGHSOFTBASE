@@ -1,49 +1,107 @@
-﻿@{
-    ViewData["Title"] = "Agenda - Calendario";
+﻿@model IEnumerable<HIGHSOFTBASE.Models.Cita>
+
+@{
+    ViewData["Title"] = "Agenda de Citas";
 }
 
-<h2>📅 Agenda</h2>
+<link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<div id="calendar"></div>
+<div id="calendar" class="mb-4"></div>
 
-@section Scripts {
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var calendarEl = document.getElementById("calendar");
+<!-- Cards con citas registradas -->
+<div class="row">
+    @foreach (var cita in Model)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title">@cita.Cliente?.Nombre</h5>
+                    <p class="card-text">
+                        <strong>Servicio:</strong> @cita.Servicio?.Nombre <br />
+                        <strong>Inicio:</strong> @cita.FechaInicio.ToString("dd/MM/yyyy HH:mm") <br />
+                      
+                        <strong>Estado:</strong> @cita.Estado
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: "dayGridMonth",
-                locale: "es", // español
-                headerToolbar: {
-                    left: "prev,next today",
-                    center: "title",
-                    right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
-                },
-                events: "/Agenda/GetCitas", // 👉 aquí llama al controlador
-                eventColor: "#378006", // color por defecto
+<!-- Modal para crear cita -->
+<div class="modal fade" id="citaModal" tabindex="-1" aria-labelledby="citaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="citaModalLabel">Nueva Cita</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
 
-                // 🔹 Permitir seleccionar
-                selectable: true,
-                selectHelper: true,
+                    <div class="mb-3">
+                        <label for="clienteNombre" class="form-label">Cliente</label>
+                        <input type="text" class="form-control" id="clienteNombre" name="clienteNombre" required />
+                    </div>
 
-                // 🔹 Qué pasa al seleccionar un rango de fechas
-                select: function (info) {
-                    alert("📅 Nueva cita del " + info.startStr + " al " + info.endStr);
-                    // Aquí puedes abrir un modal para crear la cita
-                    // o redirigir: window.location.href = '/Citas/Create?fecha=' + info.startStr;
-                },
+                    <div class="mb-3">
+                        <label for="ServicioId" class="form-label">Servicio</label>
+                        <select id="ServicioId" name="ServicioId" class="form-select" required>
+                            <option value="">Seleccione un servicio</option>
+                            @foreach (var s in ViewBag.Servicios)
+                            {
+                                <option value="@s.Id">@s.Nombre</option>
+                            }
+                        </select>
+                    </div>
 
-                // 🔹 Qué pasa al hacer clic en una cita existente
-                eventClick: function (info) {
-                    alert("📌 Cita: " + info.event.title +
-                          "\nInicio: " + info.event.start +
-                          "\nFin: " + info.event.end +
-                          "\nEstado: " + info.event.extendedProps.estado +
-                          "\nEmpleado: " + info.event.extendedProps.empleado);
-                }
-            });
+                    <div class="mb-3">
+                        <label for="Estado" class="form-label">Estado</label>
+                        <select id="Estado" name="Estado" class="form-select" required>
+                            <option value="0">Pendiente</option>
+                            <option value="1">Programada</option>
+                            <option value="2">Cumplida</option>
+                            <option value="3">Cancelada</option>
+                        </select>
+                    </div>
 
-            calendar.render();
+                    <div class="mb-3">
+                        <label for="FechaInicio" class="form-label">Fecha Inicio</label>
+                        <input type="datetime-local" class="form-control" id="FechaInicio" name="FechaInicio" required />
+                    </div>
+
+                 
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            selectable: true,
+            select: function (info) {
+                // Poner fecha seleccionada en los campos del modal
+                document.getElementById("FechaInicio").value = info.startStr + "T09:00";
+                
+
+                // Mostrar modal
+                var myModal = new bootstrap.Modal(document.getElementById('citaModal'));
+                myModal.show();
+            }
         });
-    </script>
-}
+
+        calendar.render();
+    });
+</script>

@@ -2,7 +2,6 @@
 using HIGHSOFTBASE.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,100 +16,53 @@ namespace HIGHSOFTBASE.Controllers
             _context = context;
         }
 
-        // Dashboard de agenda (lista y estadísticas)
+        // ============================
+        // 📌 Vista principal con calendario + cards
+        // ============================
         public async Task<IActionResult> Index()
         {
+            ViewBag.Servicios = await _context.Servicios.ToListAsync();
+            ViewBag.Clientes = await _context.Clientes.ToListAsync();
+
             var citas = await _context.Citas
                 .Include(c => c.Cliente)
                 .Include(c => c.Servicio)
-                .Include(c => c.Empleado)
                 .ToListAsync();
-
-            ViewBag.Total = citas.Count;
-            ViewBag.Canceladas = citas.Count(c => c.Estado == EstadoCita.Cancelada);
-            ViewBag.Cumplidas = citas.Count(c => c.Estado == EstadoCita.Cumplida);
-            ViewBag.MasSolicitado = citas.GroupBy(c => c.Servicio.Nombre)
-                                        .OrderByDescending(g => g.Count())
-                                        .FirstOrDefault()?.Key;
 
             return View(citas);
         }
 
-        // Crear nueva cita
-        public IActionResult Crear()
-        {
-            return View();
-        }
-
+        // ============================
+        // 📌 Guardar nueva cita desde modal
+        // ============================
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear(Cita cita)
+        public async Task<IActionResult> Create(Cita cita, string clienteNombre)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cita);
+                // Buscar cliente, si no existe lo crea
+                var cliente = await _context.Clientes
+                    .FirstOrDefaultAsync(c => c.Nombre == clienteNombre);
+
+                if (cliente == null)
+                {
+                    cliente = new Cliente { Nombre = clienteNombre };
+                    _context.Clientes.Add(cliente);
+                    await _context.SaveChangesAsync();
+                }
+
+                cita.ClienteId = cliente.Id;
+
+                _context.Citas.Add(cita);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(cita);
+
+            // recarga combos si falla validación
+            ViewBag.Servicios = await _context.Servicios.ToListAsync();
+            ViewBag.Clientes = await _context.Clientes.ToListAsync();
+            return View("Index", await _context.Citas.Include(c => c.Servicio).Include(c => c.Cliente).ToListAsync());
         }
-
-        // Confirmaciones
-        public async Task<IActionResult> Confirmaciones()
-        {
-            var pendientes = await _context.Citas
-                .Where(c => c.Estado == EstadoCita.Pendiente)
-                .Include(c => c.Cliente)
-                .Include(c => c.Servicio)
-                .ToListAsync();
-
-            return View(pendientes);
-        }
-
-        public async Task<IActionResult> Aprobar(int id)
-        {
-            var cita = await _context.Citas.FindAsync(id);
-            if (cita != null)
-            {
-                cita.Estado = EstadoCita.Programada;
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction(nameof(Confirmaciones));
-        }
-
-        public async Task<IActionResult> Rechazar(int id)
-        {
-            var cita = await _context.Citas.FindAsync(id);
-            if (cita != null)
-            {
-                cita.Estado = EstadoCita.Cancelada;
-                await _context.SaveChangesAsync();
-            }
-            return RedirectToAction(nameof(Confirmaciones));
-        }
-
-      
-        // Obtener citas en formato JSON para el calendario
-        public async Task<IActionResult> GetCitas()
-        {
-            var citas = await _context.Citas
-                .Include(c => c.Cliente)
-                .Include(c => c.Servicio)
-                .Include(c => c.Empleado)
-                .ToListAsync();
-
-            var eventos = citas.Select(c => new
-            {
-                id = c.Id,
-                title = $"{c.Cliente.Nombre} - {c.Servicio.Nombre}",
-                start = c.Fecha.ToString("s"),  // formato ISO
-                end = c.Fecha.AddMinutes(c.Servicio.Duracion).ToString("s"),
-                estado = c.Estado.ToString(),
-                empleado = c.Empleado.Nombre
-            });
-
-            return Json(eventos);
-        }
-
     }
 }

@@ -3,31 +3,36 @@
 <h2>Agendar Cita</h2>
 
 <form asp-action="Crear" method="post">
-    <input type="hidden" asp-for="Id" />
-
     <div class="form-group">
-        <label>Cliente</label>
-        <select asp-for="ClienteId" asp-items="ViewBag.Clientes" class="form-control"></select>
+        <label for="Titulo">Título</label>
+        <input asp-for="Titulo" class="form-control" />
     </div>
 
     <div class="form-group">
-        <label>Servicio</label>
-        <select asp-for="ServicioId" asp-items="ViewBag.Servicios" class="form-control"></select>
+        <label for="FechaInicio">Fecha inicio</label>
+        <input asp-for="FechaInicio" type="datetime-local" class="form-control" />
     </div>
 
+    
+
     <div class="form-group">
-        <label>Empleado</label>
+        <label for="EmpleadoId">Empleado</label>
         <select asp-for="EmpleadoId" asp-items="ViewBag.Empleados" class="form-control"></select>
     </div>
 
     <div class="form-group">
-        <label>Fecha Inicio</label>
-        <input asp-for="FechaInicio" type="datetime-local" class="form-control" value="@ViewBag.FechaSeleccionada" />
+        <label for="ServicioId">Servicio</label>
+        <select asp-for="ServicioId" asp-items="ViewBag.Servicios" class="form-control"></select>
     </div>
 
     <div class="form-group">
-        <label>Fecha Fin</label>
-        <input asp-for="FechaFin" type="datetime-local" class="form-control" />
+        <label for="ClienteId">Cliente</label>
+        <select asp-for="ClienteId" asp-items="ViewBag.Clientes" class="form-control"></select>
+    </div>
+
+    <div class="form-group">
+        <label for="Estado">Estado</label>
+        <select asp-for="Estado" asp-items="Html.GetEnumSelectList<EstadoCita>()" class="form-control"></select>
     </div>
 
     <button type="submit" class="btn btn-primary">Guardar</button>
