@@ -16,5 +16,8 @@ namespace HIGHSOFTBASE.Data
         public DbSet<Servicio> Servicios { get; set; }
         public DbSet<EmpleadoAgenda> Empleados { get; set; }
         public DbSet<Cita> Citas { get; set; }
+
+        public DbSet<Novedad> Novedades { get; set; }
+
     }
 }

@@ -11,9 +11,7 @@ namespace HIGHSOFTBASE.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "FechaFin",
-                table: "Citas");
+           
 
             migrationBuilder.AlterColumn<string>(
                 name: "Titulo",

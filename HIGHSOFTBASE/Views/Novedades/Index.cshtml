@@ -1,0 +1,93 @@
+﻿@model IEnumerable<HIGHSOFTBASE.Models.Novedad>
+@{
+    ViewData["Title"] = "Novedades";
+}
+
+<div class="container mt-4">
+    <h2 class="mb-3">📋 Lista de Novedades</h2>
+
+    <!-- Botón para abrir modal -->
+    <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#novedadModal">
+        ➕ Nueva Novedad
+    </button>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Empleado</th>
+                <th>Estado</th>
+                <th>Fecha y Hora</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var novedad in Model)
+            {
+                <tr>
+                    <td>@novedad.Titulo</td>
+                    <td>@novedad.Descripcion</td>
+                    <td>@novedad.Empleado?.Nombre</td>
+                    <td>
+                        @if (novedad.Activo)
+                        {
+                            <span class="badge bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Inactivo</span>
+                        }
+                    </td>
+                    <td>@novedad.FechaHora.ToString("dd/MM/yyyy HH:mm")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal para crear novedad -->
+<!-- Modal para crear novedad -->
+<div class="modal fade" id="novedadModal" tabindex="-1" aria-labelledby="novedadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form asp-action="Create" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="novedadModalLabel">➕ Nueva Novedad</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Título</label>
+                        <input name="Titulo" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <textarea name="Descripcion" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Empleado</label>
+                        <select name="EmpleadoId" class="form-select" asp-items="ViewBag.Empleados" required>
+                            <option value="">-- Selecciona un empleado --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Estado</label>
+                        <select name="Activo" class="form-select">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Fecha y Hora</label>
+                        <input name="FechaHora" type="datetime-local" class="form-control" required />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
