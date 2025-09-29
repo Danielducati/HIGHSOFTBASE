@@ -1,4 +1,4 @@
-﻿using HIGHSOFT.Models;
+using HIGHSOFT.Models;
 using HIGHSOFTBASE.Models;
 using Microsoft.EntityFrameworkCore;
 using TU_PROYECTO.Models;
@@ -12,7 +12,16 @@ namespace HIGHSOFTBASE.Data
         {
         }
 
+        // Tablas
         public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Servicio> Servicios { get; set; }
+        public DbSet<EmpleadoAgenda> Empleados { get; set; }
+        public DbSet<Cita> Citas { get; set; }
+
+        public DbSet<Novedad> Novedades { get; set; }
+
 
         public DbSet<Cliente> Clientes { get; set; }
 
@@ -43,6 +52,7 @@ namespace HIGHSOFTBASE.Data
         public DbSet<Usuario> Usuarios { get; set; }
         
         
+
 
     }
 }

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<HIGHSOFTBASE.Models.Cita>
+
+<h2>Confirmaciones pendientes</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cita in Model)
+        {
+            <tr>
+                <td>@cita.Cliente?.Nombre</td>
+                <td>@cita.Servicio?.Nombre</td>
+                <td>@cita.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>
+                    <a asp-action="Aprobar" asp-route-id="@cita.Id" class="btn btn-primary">Aprobar</a>
+                    <a asp-action="Rechazar" asp-route-id="@cita.Id" class="btn btn-danger">Rechazar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

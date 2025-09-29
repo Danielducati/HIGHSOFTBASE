@@ -1,11 +1,22 @@
-﻿using System;
+namespace HIGHSOFTBASE.Models
+
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace TU_PROYECTO.Models   // cambia TU_PROYECTO por el namespace real (ej: HIGHSOFT)
+
 {
     public class Cliente
     {
         public int Id { get; set; }
+
+        public string Nombre { get; set; } = string.Empty;
+        public string Telefono { get; set; } = string.Empty;
+        public string Correo { get; set; } = string.Empty;
+
+        // Relación con citas
+        public ICollection<Cita>? Citas { get; set; }
+
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(150)]
@@ -25,5 +36,6 @@ namespace TU_PROYECTO.Models   // cambia TU_PROYECTO por el namespace real (ej: 
 
         // Nullable: puede ser null al crear
         public DateTime? UltimaConexion { get; set; }
+
     }
 }
