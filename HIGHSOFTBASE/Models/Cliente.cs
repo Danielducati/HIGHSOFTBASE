@@ -3,7 +3,7 @@ namespace HIGHSOFTBASE.Models
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace TU_PROYECTO.Models   // cambia TU_PROYECTO por el namespace real (ej: HIGHSOFT)
+namespace HIGHSOFTBASE.Models   // cambia TU_PROYECTO por el namespace real (ej: HIGHSOFT)
 
 {
     public class Cliente
