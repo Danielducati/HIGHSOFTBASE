@@ -1,0 +1,41 @@
+﻿@model HIGHSOFTBASE.Models.Venta
+
+@{
+    ViewData["Title"] = "Detalles de la Venta";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg border-0 rounded-3">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4><i class="fa-solid fa-receipt me-2"></i> Detalles de la Venta</h4>
+                </div>
+                <div class="card-body p-4">
+                    <dl class="row">
+                        <dt class="col-sm-3 fw-bold">Servicio:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Servicio)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Precio:</dt>
+                        <dd class="col-sm-9">$@Html.DisplayFor(model => model.Precio)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Empleado:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Empleado.Correo)</dd>
+
+                        <dt class="col-sm-3 fw-bold">Cliente:</dt>
+                        <dd class="col-sm-9">@Html.DisplayFor(model => model.Usuario.Correo)</dd>
+                    </dl>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            <i class="fa-solid fa-arrow-left me-2"></i> Volver a la Lista
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model?.VentaId" class="btn btn-warning text-white">
+                            <i class="fa-solid fa-pen-to-square me-2"></i> Editar Venta
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
